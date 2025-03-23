@@ -28,10 +28,10 @@ WORKDIR /var/www
 # Copy existing application
 COPY . /var/www
 
-# Set permissions
-RUN chown -R www-data:www-data /var/www \
-    && chmod -R 755 /var/www/storage 2>/dev/null || true \
-    && chmod -R 755 /var/www/bootstrap/cache 2>/dev/null || true
+# Copy entrypoint script
+COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
 
 EXPOSE 9000
+ENTRYPOINT ["entrypoint.sh"]
 CMD ["php-fpm"]
